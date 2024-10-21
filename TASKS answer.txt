@@ -1,0 +1,319 @@
+Task - 1 : 
+
+SELECT Name from demo;
+
+SELECT * FROM demo WHERE id > 5;
+
+SELECT * FROM demo WHERE id > 5 order by Name;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+TASK - 2 :
+
+CREATE TABLE Departments (
+    department_id INT PRIMARY KEY,
+    department_name VARCHAR(100) NOT NULL,
+    location VARCHAR(100)
+);
+
+CREATE TABLE Employees (
+    employee_id INT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    department_id INT,
+    salary DECIMAL(10, 2) NOT NULL,
+    hire_date DATE NOT NULL,
+    FOREIGN KEY (department_id) REFERENCES Departments(department_id)
+);
+
+INSERT INTO Departments (department_id, department_name, location) VALUES
+(1, 'Sales', 'New York'),
+(2, 'Engineering', 'San Francisco'),
+(3, 'Human Resources', 'Chicago');
+
+
+INSERT INTO Employees (employee_id, name, email, department_id, salary, hire_date) VALUES
+(1, 'Alice Smith', 'alice@example.com', 1, 60000, '2022-01-15'),
+(2, 'Bob Johnson', 'bob@example.com', 1, 55000, '2023-03-10'),
+(3, 'Charlie Brown', 'charlie@example.com', 2, 70000, '2024-02-05'),
+(4, 'David Wilson', 'david@example.com', 2, 80000, '2024-01-20'),
+(5, 'Eve Davis', 'eve@example.com', 3, 65000, '2023-02-15'),
+(6, 'Frank Miller', 'frank@example.com', NULL, 50000, '2024-03-01'), 
+(7, 'Grace Lee', 'grace@example.com', NULL, 72000, '2024-03-15');      
+
+
+Queries : 
+
+SELECT 
+    d.department_name,
+    COUNT(e.employee_id) AS employee_count,
+    AVG(e.salary) AS average_salary
+FROM 
+    Departments d
+INNER JOIN 
+    Employees e ON d.department_id = e.department_id
+GROUP BY 
+    d.department_name
+HAVING 
+    AVG(e.salary) > 60000
+ORDER BY 
+    average_salary DESC;
+
+
+SELECT 
+    d.department_name,
+    COUNT(e.employee_id) AS employee_count,
+    AVG(e.salary) AS average_salary
+FROM 
+    Departments d
+LEFT JOIN 
+    Employees e ON d.department_id = e.department_id
+GROUP BY 
+    d.department_name
+ORDER BY 
+    average_salary DESC;
+
+SELECT 
+    d.department_name,
+    COUNT(e.employee_id) AS employee_count,
+    AVG(e.salary) AS average_salary
+FROM 
+    Departments d
+FULL OUTER JOIN 
+    Employees e ON d.department_id = e.department_id
+GROUP BY 
+    d.department_name
+ORDER BY 
+    average_salary DESC;
+
+
+
+
+
+
+
+
+
+
+
+
+
+Task - 3 : 
+
+CREATE TABLE Customer (
+	customerId INTEGER PRIMARY KEY AUTOINCREMENT,
+    	name VARCHAR(255) NOT NULL,
+    	email VARCHAR(255) NOT NULL UNIQUE
+);
+
+
+CREATE TABLE Orders (
+	orderID INTEGER PRIMARY KEY AUTOINCREMENT,
+    	orderDate DATE NOT NULL,
+    	totalAmount DECIMAL(10,2) not NULL,
+    	customerid INT,
+    	FOREIGN KEY (customerid) REFERENCES Customer(customerid)
+);
+
+create table products (
+	productId INTEGER PRIMARY KEY AUTOINCREMENT,
+    productName VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE orderDetails(
+	orderDetailId INTEGER PRIMARY KEY AUTOINCREMENT,
+    orderid INTEGER,
+    productid INTEGER,
+    quantityOrdered INTEGER NOT NULL,
+    FOREIGN key (orderid) REFERENCES Orders(orderid),
+    FOREIGN KEY (productid) REFERENCES products(productid)
+);
+
+INSERT INTO Customer (Name, Email)
+VALUES
+('John Doe', 'johndoe@example.com'),
+('Jane Smith', 'janesmith@example.com'),
+('Alice Johnson', 'alicej@example.com'),
+('Bob Brown', 'bobbrown@example.com'),
+('Chris Evans', 'chrisevans@example.com'),
+('Emma Watson', 'emmawatson@example.com'),
+('David Miller', 'davidmiller@example.com'),
+('Sophia Davis', 'sophiadavis@example.com'),
+('Michael Scott', 'michaelscott@example.com'),
+('Rachel Green', 'rachelgreen@example.com'),
+('Monica Geller', 'monicageller@example.com'),
+('Chandler Bing', 'chandlerbing@example.com'),
+('Phoebe Buffay', 'phoebebuffay@example.com'),
+('Ross Geller', 'rossgeller@example.com'),
+('Joey Tribbiani', 'joeytribbiani@example.com');
+
+INSERT INTO products (productname)
+VALUES
+('Laptop'),
+('Smartphone'),
+('Headphones'),
+('Monitor'),
+('Keyboard'),
+('Mouse'),
+('Tablet'),
+('Smartwatch'),
+('External Hard Drive'),
+('Gaming Console'),
+('Webcam'),
+('Printer'),
+('Router'),
+('Speaker'),
+('Graphic Card');
+
+
+INSERT INTO Orders (orderdate,totalamount,customerid)
+VALUES
+('2024-10-15', 1500.00, 1),
+('2024-10-16', 800.00, 2),
+('2024-10-17', 350.00, 1),
+('2024-10-18', 1200.00, 3),
+('2024-10-19', 950.00, 4),
+('2024-10-20', 2000.00, 5),
+('2024-10-21', 450.00, 6),
+('2024-10-22', 650.00, 7),
+('2024-10-23', 1450.00, 8),
+('2024-10-24', 1700.00, 9),
+('2024-10-25', 700.00, 10),
+('2024-10-26', 300.00, 11),
+('2024-10-27', 2200.00, 12),
+('2024-10-28', 980.00, 13),
+('2024-10-29', 1550.00, 14),
+('2024-10-30', 2100.00, 15);
+
+INSERT INTO orderDetails(orderid,productid,quantityordered)
+VALUES
+(1, 1, 1),  -- Laptop
+(1, 3, 2),  -- Headphones
+(2, 2, 1),  -- Smartphone
+(3, 4, 1),  -- Monitor
+(3, 5, 1),  -- Keyboard
+(4, 1, 1),  -- Laptop
+(4, 3, 1),  -- Headphones
+(5, 6, 2),  -- Mouse
+(5, 7, 1),  -- Tablet
+(6, 1, 2),  -- Laptop
+(6, 10, 1), -- Gaming Console
+(7, 2, 1),  -- Smartphone
+(7, 13, 1), -- Router
+(8, 5, 2),  -- Keyboard
+(8, 14, 1), -- Speaker
+(9, 15, 1), -- Graphic Card
+(9, 4, 1),  -- Monitor
+(10, 2, 1), -- Smartphone
+(10, 11, 1), -- Webcam
+(11, 1, 1), -- Laptop
+(11, 12, 1), -- Printer
+(12, 8, 1), -- Smartwatch
+(12, 7, 1), -- Tablet
+(13, 1, 1), -- Laptop
+(13, 15, 1), -- Graphic Card
+(14, 2, 1), -- Smartphone
+(14, 3, 1), -- Headphones
+(15, 1, 1), -- Laptop
+(15, 10, 1), -- Gaming Console
+(16, 6, 1), -- Mouse
+(16, 14, 2); -- Speaker
+
+
+-- Orders older than 6 months
+INSERT INTO Orders (orderdate,totalamount,customerid)
+VALUES
+('2024-03-15', 1200.00, 2),   -- Jane Smith
+('2024-02-10', 900.00, 3),    -- Alice Johnson
+('2024-04-10', 1500.00, 1),   -- John Doe
+('2024-01-25', 1100.00, 4),   -- Bob Brown
+('2024-03-01', 700.00, 5);    -- Chris Evans
+
+
+SELECT C.customerId, C.name, SUM(O.totalAmount) OVER(PARTITION BY C.customerId, C.name) AS dept_total_salary
+FROM Customer AS C
+JOIN Orders AS O ON C.customerId = O.customerid
+JOIN orderDetails OD ON O.orderID = OD.orderid
+JOIN products AS P ON P.productId = OD.productid
+WHERE TIMESTAMPDIFF(MONTH, O.orderDate, current_date()) <=6
+GROUP BY C.customerId, C.name
+HAVING COUNT(OD.productid) > 0;
+
+
+
+
+TASK - 4 : 
+
+CREATE DATABASE mydatabase;
+
+CREATE USER "reader" IDENTIFIED BY "reader_password";
+
+CREATE USER "writer" IDENTIFIED BY "writer_password";
+
+GRANT SELECT ON mydatabase.* TO 'reader'@'localhost';
+
+GRANT ALL ON mydatabase.* TO 'writer'@'localhost';
+
+FLUSH PRIVILEGES;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
